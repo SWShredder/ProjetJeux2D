@@ -151,8 +151,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40fda30bf84cee41a9701da0f85063a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  estProjectile: 1
   vitesse: 6
-  "d\xE9gats": 2
   "dur\xE9eVie": 1
+  "d\xE9gats": 2
+  "port\xE9e": 4
   "d\xE9laiD\xE9gat": 0.01
   "EstTransper\xE7ant": 1

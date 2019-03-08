@@ -95,9 +95,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b40fda30bf84cee41a9701da0f85063a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  estProjectile: 0
   vitesse: 0
-  "d\xE9gats": 4
   "dur\xE9eVie": 0.6
+  "d\xE9gats": 4
+  "port\xE9e": 6
   "d\xE9laiD\xE9gat": 0.5
   "EstTransper\xE7ant": 1
 --- !u!95 &9120815710720575937

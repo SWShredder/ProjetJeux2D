@@ -1,0 +1,4 @@
+Deadcows: https://github.com/Deadcows/MyBox, http://deadcow.ru, 2019-03-08
+
+Tous les scripts du dossier Attributes proviennent du GitHub de Deadcows.
+
