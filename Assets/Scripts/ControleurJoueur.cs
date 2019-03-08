@@ -20,7 +20,6 @@ public class ControleurJoueur : ControleurEntité
     [SerializeField] private Transform positionAttaque1;
     [SerializeField] private Transform positionAttaque2;
 
-    public bool EstAttaquePrête { private set; get; }
     public EntitéState ÉtatInactif { private set; get; }
     public EntitéState ÉtatMouvement { private set; get; }
     public EntitéState ÉtatAttaque1 { private set; get; }
@@ -84,13 +83,6 @@ public class ControleurJoueur : ControleurEntité
             MessageErreur(this, "La composante Position Projectile n'a pas été définie et la méthode attaque ne pourra pas" +
                 " fonctionner.");
         }
-        EstAttaquePrête = true;
     }
 
-    private IEnumerator VérrouillerAttaque(float seconds)
-    {
-        EstAttaquePrête = false;
-        yield return new WaitForSeconds(seconds);
-        EstAttaquePrête = true;
-    } 
 }

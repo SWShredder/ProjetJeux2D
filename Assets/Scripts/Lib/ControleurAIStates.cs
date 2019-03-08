@@ -47,7 +47,7 @@ public class EndormiAIState : AIState
     {
         Message("État: Endormi");
         // Pour s'assurer que le ControleurEntité associé au ControleurAI cesse les mouvements
-        controleur.ActualiserMouvement(Vector2.zero);
+        controleur.CommanderMouvement(Vector2.zero);
     }
     public override void Actualiser()
     {
@@ -73,7 +73,7 @@ public class ÀDistanceAIState : AIState
     public override void Initialiser()
     {
         Message("État: À Distance");
-        controleur.ActualiserMouvement(Vector2.zero);
+        controleur.CommanderMouvement(Vector2.zero);
     }
     public override void Actualiser()
     {
@@ -121,7 +121,7 @@ public class EnApprocheAIState : AIState
     /// <summary>
     /// Méthode d'aide qui permet de faire l'appel de la méthode ActualiserMouvement de ControleurAI
     /// </summary>
-    public void AvancerDevant() => controleur.ActualiserMouvement(controleur.ObtenirDirectionHorizontale());
+    public void AvancerDevant() => controleur.CommanderMouvement(controleur.ObtenirDirectionHorizontale());
 }
 
 /// <summary>
@@ -141,7 +141,7 @@ public class ÀProximitéAIState : AIState
         //else controleur.StartCoroutine(controleur.ActionRépétéeJusquàTemps(SePositionner, 0.1f));
         else controleur.État = controleur.EnPositionnementAIState;
     }
-    public void SePositionner() => controleur.ActualiserMouvement(controleur.ObtenirDirectionPourPositionnement());
+    public void SePositionner() => controleur.CommanderMouvement(controleur.ObtenirDirectionPourPositionnement());
 }
 
 /// <summary>
@@ -163,7 +163,7 @@ public class EnPositionnementAIState : AIState
         }
         else controleur.StartCoroutine(controleur.ActionRépétéeJusquàTemps(SePositionner, 0.1f));
     }
-    public void SePositionner() => controleur.ActualiserMouvement(controleur.ObtenirDirectionPourPositionnement());
+    public void SePositionner() => controleur.CommanderMouvement(controleur.ObtenirDirectionPourPositionnement());
 }
 
 
@@ -175,7 +175,7 @@ public class EnAttaqueAIState : AIState
     public override void Initialiser()
     {
         Message("État: En Attaque");
-        controleur.ActualiserMouvement(Vector2.zero);
+        controleur.CommanderMouvement(Vector2.zero);
     }
     public override void Actualiser()
     {

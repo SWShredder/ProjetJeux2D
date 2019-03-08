@@ -178,8 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vitesseMouvement: 0.5
+  "param\xE8tresAvanc\xE9s": 1
   coefficientAxeVertical: 0.8
-  "d\xE9laiAttaque": 3
+  cooldownAttaques: 0.3
+  cooldownAttaqueState: 0.5
   positionProjectiles: {fileID: 7230225878824174356}
   projectile: {fileID: 5791454600326745414, guid: c2700d2ecc8575c418535190e004fea2,
     type: 3}

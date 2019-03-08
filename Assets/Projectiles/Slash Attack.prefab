@@ -100,6 +100,7 @@ MonoBehaviour:
   "dur\xE9eVie": 0.6
   "d\xE9gats": 4
   "port\xE9e": 6
+  cooldown: 0.8
   "d\xE9laiD\xE9gat": 0.5
   "EstTransper\xE7ant": 1
 --- !u!95 &9120815710720575937

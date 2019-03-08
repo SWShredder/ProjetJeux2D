@@ -19,6 +19,7 @@ public class ControleurEnnemi : ControleurEntité
     private GameObject projectile;
 
     // --- Public --- //
+    
     public EntitéState ÉtatInactif { set; get; }
     public EntitéState ÉtatMouvement { set; get; }
     public EntitéState ÉtatAttaque { set; get; }
@@ -40,12 +41,18 @@ public class ControleurEnnemi : ControleurEntité
             projectile,
             positionProjectiles.position,
             EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
+        StartCoroutine(VérrouillerAttaque(instance.GetComponent<ProjectileComportement>().Cooldown));
         instance.GetComponent<ProjectileComportement>().Parent = this.gameObject;
+    }
+
+    public void SurDemandeMouvement(Vector2 direction)
+    {
+        if (!EstEnAttaque && !EstEnCooldownAttaque) Mouvement = direction;
     }
 
     public void SurDemandeAttaque()
     {
-        if(!EstEnAttaque) État = ÉtatAttaque;
+        if(!EstEnAttaque && EstAttaquePrête && !EstEnCooldownAttaque) État = ÉtatAttaque;
     }
 
     public override void Mourir()

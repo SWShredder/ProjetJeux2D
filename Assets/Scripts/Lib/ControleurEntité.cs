@@ -41,6 +41,7 @@ public abstract class ControleurEntité : MonoBehaviour
     protected EntitéState état;
 
     // --- Public --- // 
+    public virtual bool EstAttaquePrête { protected set; get; }
     public virtual bool EstMort { protected set; get; }
     public virtual bool EstEnAttaque { set; get; }
     public virtual bool EstEnMouvement { set; get; }
@@ -122,6 +123,7 @@ public abstract class ControleurEntité : MonoBehaviour
         EstInitialisé = corpsPhysique != null && animateur != null;
         EstEnAttaque = false;
         EstEnCooldownAttaque = false;
+        EstAttaquePrête = true;
     }
 
     void FixedUpdate()
@@ -145,6 +147,13 @@ public abstract class ControleurEntité : MonoBehaviour
         EstEnCooldownAttaque = true;
         yield return new WaitForSeconds(seconds);
         EstEnCooldownAttaque = false;
+    }
+
+    protected IEnumerator VérrouillerAttaque(float seconds)
+    {
+        EstAttaquePrête = false;
+        yield return new WaitForSeconds(seconds);
+        EstAttaquePrête = true;
     }
 
 }

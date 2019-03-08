@@ -21,7 +21,8 @@ public class EnnemiInactifState : InactifState
 
     public override void Actualiser()
     {
-        if (controleur.Mouvement.magnitude > 0) controleur.État = controleurEnnemi.ÉtatMouvement;
+        if (controleur.EstEnCooldownAttaque) return;
+        else if (controleur.Mouvement.magnitude > 0) controleur.État = controleurEnnemi.ÉtatMouvement;
     }
 }
 
@@ -33,12 +34,9 @@ public class EnnemiMouvementState : MouvementState
 
     public override void Actualiser()
     {
-        if (controleur.EstEnAttaque)
-        {
-            controleur.État = controleurEnnemi.ÉtatAttaque;
-            return;
-        }
-        if (controleur.Mouvement.magnitude == 0 && !controleur.EstEnAttaque) controleur.État = controleurEnnemi.ÉtatInactif;
+        //if (controleur.EstEnCooldownAttaque) controleur.État = controleurEnnemi.ÉtatInactif;
+        //else if (controleur.EstEnAttaque) controleur.État = controleurEnnemi.ÉtatAttaque;
+        if (controleur.Mouvement.magnitude == 0) controleur.État = controleurEnnemi.ÉtatInactif;
     }
 }
 

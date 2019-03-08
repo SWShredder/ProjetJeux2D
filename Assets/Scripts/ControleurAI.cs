@@ -78,7 +78,7 @@ public class ControleurAI : MonoBehaviour
     }
 
 
-    public void ActualiserMouvement(Vector2 direction) => controleurEntité.Mouvement = direction;
+    public void CommanderMouvement(Vector2 direction) => (controleurEntité as ControleurEnnemi).SurDemandeMouvement(direction);
     public float ObtenirDistanceAvecJoueur() => Vector2.Distance(transform.position, PositionJoueur);
     public virtual Vector2 ObtenirDirectionVersJoueur() => (PositionJoueur - (Vector2)transform.position).normalized;
     public bool EstJoueurÀDistance() => ObtenirDistanceAvecJoueur() < RayonActivité;
