@@ -21,7 +21,7 @@ public class ProjectileComportement : MonoBehaviour
     [SerializeField]
     protected float vitesse = 2f;
 
-    [SerializeField, Min(0)]
+    [SerializeField]
     protected int dégats = 1;
 
     [SerializeField]
@@ -50,19 +50,18 @@ public class ProjectileComportement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var objetCollision = collision.gameObject;
-
-        if (objetCollision.CompareTag("Projectile") || objetCollision.gameObject.tag == Parent.gameObject.tag) return;
-        if (objetCollision.GetComponent<ControleurEntité>() != null && objetCollision.GetComponent<ControleurEntité>().EstMort)
-        {
-            return;
-        }
-        else if (collision.gameObject.GetComponent<ControleurRpg>() != null)
-        {
-            //collision.gameObject.GetComponent<ControleurRpg>().AppliquerDégats(dégats);
-            collision.gameObject.GetComponent<ControleurRpg>().StartCoroutine(Coroutines.Instance.ActionDiférée(
-                () => collision.gameObject.GetComponent<ControleurRpg>().AppliquerDégats(dégats), délaiDégat));
-        }
-        if (!EstTransperçant) Destroy(gameObject);
+        var source = collision.gameObject;
+        if (EstSourceValidePourDommage(source)) DéclencherDégats(source);
+        if (!EstTransperçant) Destroy(this.gameObject);
     }
+
+
+    protected void DéclencherDégats(GameObject source) => source.GetComponent<ControleurRpg>().StartCoroutine(
+        Coroutines.Instance.ActionDiférée(() => source.GetComponent<ControleurRpg>().AppliquerDégats(dégats), délaiDégat));
+    protected bool EstSourceValidePourDommage(GameObject source) => EstSourceEntitéValide(source) && EstSourceComposanteRpgValide(source);
+    private bool EstSourceProjectile(GameObject source) => source.CompareTag("Projectile");
+    private bool EstSourceEntitéValide(GameObject source) => !EstSourceProjectile(source)
+        && source.GetComponent<ControleurEntité>() != null && !source.GetComponent<ControleurEntité>().EstMort;
+    private bool EstSourceComposanteRpgValide(GameObject source) => source.GetComponent<ControleurRpg>() != null;
+
 }

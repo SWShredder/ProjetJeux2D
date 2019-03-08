@@ -177,7 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f569b17877a1c4449b2c44e819cb486b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vitesseMouvement: 0.7
+  vitesseMouvement: 0.5
   coefficientAxeVertical: 0.8
   "d\xE9laiAttaque": 3
   positionProjectiles: {fileID: 7230225878824174356}
@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0f0f12170527b478abe62af5fd0687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  "sant\xE9Maximale": 50
+  "sant\xE9Maximale": 30
 --- !u!114 &4694460836018414319
 MonoBehaviour:
   m_ObjectHideFlags: 0
