@@ -86,7 +86,7 @@ public abstract class AttaqueState : EntitéState
         Message("EntitéState -> En Attaque");
         controleur.Attaquer();
         controleur.EstEnAttaque = true;
-        controleur.Animateur.SetBool("EstEnAttaque", true);
+        controleur.Animateur.SetBool("EstEnAttaque", true);      
         attaqueChrono = Time.fixedTime;
     }
 
@@ -94,9 +94,10 @@ public abstract class AttaqueState : EntitéState
     {
         controleur.EstEnAttaque = false;
         controleur.Animateur.SetBool("EstEnAttaque", false);
+        controleur.MettreEnCooldown();
     }
 
-    protected bool EstCooldownGeneralTerminé() => Time.fixedTime - attaqueChrono >= controleur.CooldownGeneral;
+    protected bool EstCooldownStateTerminé() => Time.fixedTime - attaqueChrono >= controleur.CooldownAttackState;
 
 }
 

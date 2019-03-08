@@ -38,6 +38,17 @@ public class ControleurJoueur : ControleurEntité
         ÉtatMort = new JoueurMortState(this);
     }
 
+
+    public override void Attaquer()
+    {
+        var instance = Instantiate(
+            attaque1,
+            positionAttaque1.position,
+            EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
+        StartCoroutine(VérrouillerAttaque(instance.GetComponent<ProjectileComportement>().Cooldown));
+        instance.GetComponent<ProjectileComportement>().Parent = this.gameObject;
+    }
+
     public void ExécuterAttaque1()
     {
         var instance = Instantiate(
@@ -68,7 +79,7 @@ public class ControleurJoueur : ControleurEntité
     {
         Initialiser();
         État = ÉtatInactif;
-        if (positionAttaque2 == null)
+        if (positionAttaque1 == null)
         {
             MessageErreur(this, "La composante Position Projectile n'a pas été définie et la méthode attaque ne pourra pas" +
                 " fonctionner.");

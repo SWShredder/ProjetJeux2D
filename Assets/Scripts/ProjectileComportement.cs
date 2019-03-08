@@ -30,7 +30,7 @@ public class ProjectileComportement : MonoBehaviour
     protected int dégats = 1;
     [SerializeField, Min(0.1f)]
     protected float portée = 6f;
-    [SerializeField, Min(0.05f)]
+    [SerializeField, Min(0.01f)]
     protected float cooldown = 0.35f;
     [SerializeField, Min(0.01f)]
     protected float délaiDégat = 0.01f;

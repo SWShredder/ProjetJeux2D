@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1230082986190268828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7597137, y: 0.7597137, z: 3.7985682}
+  m_LocalScale: {x: 0.3319721, y: 0.3319721, z: 1.6598604}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -152,10 +152,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   estProjectile: 1
-  vitesse: 6
+  vitesse: 8
   "dur\xE9eVie": 1
   "d\xE9gats": 2
-  "port\xE9e": 4
-  cooldown: 0.1
+  "port\xE9e": 8
+  cooldown: 0.12
   "d\xE9laiD\xE9gat": 0.01
   "EstTransper\xE7ant": 1

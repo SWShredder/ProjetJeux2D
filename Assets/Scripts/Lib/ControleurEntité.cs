@@ -16,20 +16,25 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 using static Utilitaire;
 
 public abstract class ControleurEntité : MonoBehaviour
 {
 
-    [SerializeField, Min(0f), Tooltip("Ajuste la vitesse de mouvement globale")]
+    [SerializeField, Min(0f), Tooltip("Vitesse de mouvement globale")]
     protected float vitesseMouvement = 1f;
-
-    [SerializeField, Range(0f, 1f), Tooltip("Ajuste la vitesse de mouvement sur l'axe vertical")]
+    [SerializeField]
+    protected bool paramètresAvancés = true;
+    [SerializeField, Range(0f, 2f), Tooltip("Vitesse de mouvement sur l'axe vertical"), ConditionalField("paramètresAvancés")]
     protected float coefficientAxeVertical = 0.6f;
 
-    [SerializeField, Min(0.1f), Tooltip("Ajuste la longueur du délai en secondes entre les attaques")]
-    protected float délaiAttaque = 0.6f;
+    [SerializeField, Min(0.01f), Tooltip("Délai d'inactivité après les attaques"), ConditionalField("paramètresAvancés")]
+    protected float cooldownAttaques = 0.2f;
+
+    [SerializeField, Min(0.1f), Tooltip("Délai minimum dans lequel l'entité doit rester dans la state Attaque"), ConditionalField("paramètresAvancés")]
+    protected float cooldownAttaqueState = 0.15f;
 
     protected Rigidbody2D corpsPhysique;
     protected Animator animateur;
@@ -41,25 +46,24 @@ public abstract class ControleurEntité : MonoBehaviour
     public virtual bool EstEnMouvement { set; get; }
     public virtual bool EstFaceDroite { set; get; }
     public virtual bool EstInitialisé { private set; get; }
-    
+    public virtual bool EstEnCooldownAttaque { private set; get; }
+    public virtual float CooldownAttaques { get => cooldownAttaques; }
     public virtual Rigidbody2D CorpsPhysique { get => corpsPhysique; }
     public virtual Animator Animateur { get => animateur; }
     public virtual Vector2 Mouvement { set; get; }
-    public float VitesseMouvement { get => vitesseMouvement; }
-    
-
-
+    public virtual float VitesseMouvement { get => vitesseMouvement; }
+    public virtual float CooldownAttackState { set => cooldownAttaqueState = value; get => cooldownAttaqueState; }
     public virtual EntitéState État
     {
         set
         {
-            if(état != null) état.Terminer();
+            if (état != null) état.Terminer();
             état = value;
             état.Initialiser();
         }
         get
         {
-            if(état == null)
+            if (état == null)
             {
                 MessageErreur(this, "Une tentative a été faite pour obtenir l'état d'un EntitéControleur alors que celui-ci" +
                     " n'était pas encore défini.");
@@ -67,11 +71,7 @@ public abstract class ControleurEntité : MonoBehaviour
             return état;
         }
     }
-    public virtual float CooldownGeneral
-    {
-        set => délaiAttaque = value;
-        get => délaiAttaque;
-    }
+
 
 
     // --- Constructeur --- //
@@ -95,7 +95,7 @@ public abstract class ControleurEntité : MonoBehaviour
     {
         corpsPhysique.velocity = Mouvement * vitesseMouvement * new Vector2(1, coefficientAxeVertical);
         this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.y);
-        if(Mouvement.magnitude == 0)
+        if (Mouvement.magnitude == 0)
         {
             //EstEnMouvement = false;
         }
@@ -120,11 +120,13 @@ public abstract class ControleurEntité : MonoBehaviour
         if (animateur == null) MessageErreur(this, "n'a pas de composante Animator assigné et ne pourra pas être animé.");
 
         EstInitialisé = corpsPhysique != null && animateur != null;
+        EstEnAttaque = false;
+        EstEnCooldownAttaque = false;
     }
 
     void FixedUpdate()
     {
-        if(État != null) État.Actualiser();
+        if (État != null) État.Actualiser();
         if (EstMort) return;
         // Applique la vélocité au corps physique. 
         ActualiserMouvement();
@@ -133,6 +135,16 @@ public abstract class ControleurEntité : MonoBehaviour
         if (EstEnMouvement && Mouvement.x != 0) ActualiserDirection(Mouvement.x > 0);
     }
 
+    public void MettreEnCooldown()
+    {
+        StartCoroutine(AppliquerCooldownAttaques(CooldownAttaques));
+    }
 
+    private IEnumerator AppliquerCooldownAttaques(float seconds)
+    {
+        EstEnCooldownAttaque = true;
+        yield return new WaitForSeconds(seconds);
+        EstEnCooldownAttaque = false;
+    }
 
 }

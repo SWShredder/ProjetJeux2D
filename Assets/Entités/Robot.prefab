@@ -195,8 +195,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vitesseMouvement: 1
+  "param\xE8tresAvanc\xE9s": 1
   coefficientAxeVertical: 0.603
-  "d\xE9laiAttaque": 0.15
+  cooldownAttaques: 0.1
+  cooldownAttaqueState: 0.15
   attaque1: {fileID: 1230082986190268828, guid: b260f79d029f60940939420b081c2f38,
     type: 3}
   attaque2: {fileID: 0}

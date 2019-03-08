@@ -39,6 +39,7 @@ public class JoueurInactifState : InactifState
         => controleurJoueur = (ControleurJoueur)controleur;
     public override void Actualiser()
     {
+        if (controleur.EstEnCooldownAttaque) return;
         if (Input.GetButton("Fire1") && controleurJoueur.EstAttaquePrête) controleur.État = controleurJoueur.ÉtatAttaque1;
         else
         {
@@ -89,8 +90,11 @@ public class JoueurAttaque1State : AttaqueState
 
     public override void Actualiser()
     {
-        if (EstCooldownGeneralTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
+        if (controleurJoueur.EstAttaquePrête && Input.GetButton("Fire1")) controleurJoueur.ExécuterAttaque1();
+        else if (Input.GetButton("Fire1")) return;
+        else if (EstCooldownStateTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
     }
+
 }
 
 public class JoueurAttaque2State : AttaqueState
@@ -109,7 +113,7 @@ public class JoueurAttaque2State : AttaqueState
 
     public override void Actualiser()
     {
-        if (EstCooldownGeneralTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
+        if (EstCooldownStateTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
     }
 }
 
