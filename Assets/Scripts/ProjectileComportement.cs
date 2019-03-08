@@ -1,6 +1,7 @@
 ﻿/*
  *      Auteur: Yanik Sweeney
  *      Date de création: 2019/03/04
+ *      Dernière modification: 2019/03/09
  *      
  *      Comportement des projectiles. Pour le moment le comportement est limité, mais il permet de s'assurer que
  *      les projectiles ne "collideront" pas ensemble, sur une Entité avec 0 points de santé, ou encore sur le 
@@ -21,24 +22,23 @@ public class ProjectileComportement : MonoBehaviour
 
     [SerializeField]
     protected bool estProjectile = true;
-
     [SerializeField, ConditionalField("estProjectile", true)]
     protected float vitesse = 2f;
-
     [SerializeField, ConditionalField("estProjectile", false)]
     protected float duréeVie = 5f;
-
     [SerializeField]
     protected int dégats = 1;
-
-    [SerializeField]
+    [SerializeField, Min(0.1f)]
     protected float portée = 6f;
-
-    [SerializeField]
-    protected float délaiDégat = 0f;
-
+    [SerializeField, Min(0.05f)]
+    protected float cooldown = 0.35f;
+    [SerializeField, Min(0.01f)]
+    protected float délaiDégat = 0.01f;
     [SerializeField]
     protected bool EstTransperçant = false;
+
+    public float Portée { get => portée; protected set => portée = value; }
+    public float Cooldown { get => cooldown; protected set => cooldown = value; }
 
 
     // Start is called before the first frame update

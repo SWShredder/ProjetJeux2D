@@ -67,7 +67,7 @@ public abstract class ControleurEntité : MonoBehaviour
             return état;
         }
     }
-    public virtual float DélaiAttaques
+    public virtual float CooldownGeneral
     {
         set => délaiAttaque = value;
         get => délaiAttaque;

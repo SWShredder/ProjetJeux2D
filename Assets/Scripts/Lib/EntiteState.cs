@@ -96,7 +96,7 @@ public abstract class AttaqueState : EntitéState
         controleur.Animateur.SetBool("EstEnAttaque", false);
     }
 
-    protected bool EstAttaquePrête() => Time.fixedTime - attaqueChrono >= controleur.DélaiAttaques;
+    protected bool EstCooldownGeneralTerminé() => Time.fixedTime - attaqueChrono >= controleur.CooldownGeneral;
 
 }
 

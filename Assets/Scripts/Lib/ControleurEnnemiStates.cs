@@ -50,7 +50,7 @@ public class EnnemiAttaqueState : AttaqueState
 
     public override void Actualiser()
     {
-        if (EstAttaquePrête()) controleur.État = controleurEnnemi.ÉtatInactif;
+        if (EstCooldownGeneralTerminé()) controleur.État = controleurEnnemi.ÉtatInactif;
     }
 }
 

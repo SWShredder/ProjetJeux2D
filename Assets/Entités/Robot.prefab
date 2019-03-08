@@ -196,10 +196,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vitesseMouvement: 1
   coefficientAxeVertical: 0.603
-  "d\xE9laiAttaque": 0.6
-  positionProjectiles: {fileID: 8049936943675312057}
-  projectile: {fileID: 1230082986190268828, guid: b260f79d029f60940939420b081c2f38,
+  "d\xE9laiAttaque": 0.15
+  attaque1: {fileID: 1230082986190268828, guid: b260f79d029f60940939420b081c2f38,
     type: 3}
+  attaque2: {fileID: 0}
+  positionAttaque1: {fileID: 8049936943675312057}
+  positionAttaque2: {fileID: 0}
 --- !u!114 &8003301772503509608
 MonoBehaviour:
   m_ObjectHideFlags: 0

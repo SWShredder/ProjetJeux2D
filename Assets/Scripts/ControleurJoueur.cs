@@ -9,36 +9,52 @@
  *      
  */
 using UnityEngine;
+using MyBox;
+using System.Collections;
 using static Utilitaire;
 
 public class ControleurJoueur : ControleurEntité
 {
-    [SerializeField]
-    private Transform positionProjectiles;
+    [SerializeField] private GameObject attaque1;
+    [SerializeField] private GameObject attaque2;
+    [SerializeField] private Transform positionAttaque1;
+    [SerializeField] private Transform positionAttaque2;
 
-    [SerializeField]
-    private GameObject projectile;
-
+    public bool EstAttaquePrête { private set; get; }
     public EntitéState ÉtatInactif { private set; get; }
     public EntitéState ÉtatMouvement { private set; get; }
-    public EntitéState ÉtatAttaque { private set; get; }
+    public EntitéState ÉtatAttaque1 { private set; get; }
+    public EntitéState ÉtatAttaque2 { private set; get; }
     public EntitéState ÉtatMort { private set; get; }
+    public GameObject Attaque1 { private set; get; }
+    public GameObject Attaque2 { private set; get; }
 
     public ControleurJoueur()
     {
         ÉtatInactif = new JoueurInactifState(this);
         ÉtatMouvement = new JoueurMouvementState(this);
-        ÉtatAttaque = new JoueurAttaqueState(this);
+        ÉtatAttaque1 = new JoueurAttaque1State(this);
+        ÉtatAttaque2 = new JoueurAttaque2State(this);
         ÉtatMort = new JoueurMortState(this);
     }
 
-
-    public override void Attaquer()
+    public void ExécuterAttaque1()
     {
         var instance = Instantiate(
-            projectile,
-            positionProjectiles.position,
+            attaque1,
+            positionAttaque1.position,
             EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
+        StartCoroutine(VérrouillerAttaque(instance.GetComponent<ProjectileComportement>().Cooldown));
+        instance.GetComponent<ProjectileComportement>().Parent = this.gameObject;
+    }
+
+    public void ExécuterAttaque2()
+    {
+        var instance = Instantiate(
+            attaque2,
+            positionAttaque2.position,
+            EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
+        StartCoroutine(VérrouillerAttaque(instance.GetComponent<ProjectileComportement>().Cooldown));
         instance.GetComponent<ProjectileComportement>().Parent = this.gameObject;
     }
 
@@ -52,10 +68,18 @@ public class ControleurJoueur : ControleurEntité
     {
         Initialiser();
         État = ÉtatInactif;
-        if (positionProjectiles == null)
+        if (positionAttaque2 == null)
         {
             MessageErreur(this, "La composante Position Projectile n'a pas été définie et la méthode attaque ne pourra pas" +
                 " fonctionner.");
         }
+        EstAttaquePrête = true;
     }
+
+    private IEnumerator VérrouillerAttaque(float seconds)
+    {
+        EstAttaquePrête = false;
+        yield return new WaitForSeconds(seconds);
+        EstAttaquePrête = true;
+    } 
 }

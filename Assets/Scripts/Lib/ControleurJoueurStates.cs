@@ -34,56 +34,83 @@ using UnityEngine;
 
 public class JoueurInactifState : InactifState
 {
-    private ControleurJoueur joueurControleur;
+    private ControleurJoueur controleurJoueur;
     public JoueurInactifState(ControleurEntité controleur) : base(controleur)
-        => joueurControleur = (ControleurJoueur)controleur;
+        => controleurJoueur = (ControleurJoueur)controleur;
     public override void Actualiser()
     {
-        if (Input.GetButton("Fire1")) controleur.État = joueurControleur.ÉtatAttaque;
-
-        Vector2 velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        controleur.Mouvement = velocity;
-
-        if (velocity.magnitude > 0) controleur.État = joueurControleur.ÉtatMouvement;
-
+        if (Input.GetButton("Fire1") && controleurJoueur.EstAttaquePrête) controleur.État = controleurJoueur.ÉtatAttaque1;
+        else
+        {
+            Vector2 velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            controleur.Mouvement = velocity;
+            if (velocity.magnitude > 0) controleur.État = controleurJoueur.ÉtatMouvement;
+        }
     }
 }
 
 
 public class JoueurMouvementState : MouvementState
 {
-    private ControleurJoueur joueurControleur;
+    private ControleurJoueur controleurJoueur;
     public JoueurMouvementState(ControleurEntité controleur) : base(controleur)
-        => joueurControleur = (ControleurJoueur)controleur;
+        => controleurJoueur = (ControleurJoueur)controleur;
 
     public override void Actualiser()
     {
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1") && controleurJoueur.EstAttaquePrête)
         {
-            controleur.État = joueurControleur.ÉtatAttaque;
+            controleur.État = controleurJoueur.ÉtatAttaque1;
         }
         else
         {
             Vector2 velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             controleur.Mouvement = velocity;
-            if (velocity.magnitude == 0) controleur.État = joueurControleur.ÉtatInactif;
+            if (velocity.magnitude == 0) controleur.État = controleurJoueur.ÉtatInactif;
         }
     }
 
 }
 
 
-public class JoueurAttaqueState : AttaqueState
+public class JoueurAttaque1State : AttaqueState
 {
-    private ControleurJoueur joueurControleur;
-    public JoueurAttaqueState(ControleurEntité controleur) : base(controleur)
-        => joueurControleur = (ControleurJoueur)controleur;
+    private ControleurJoueur controleurJoueur;
+    public JoueurAttaque1State(ControleurEntité controleur) : base(controleur)
+        => controleurJoueur = (ControleurJoueur)controleur;
+    public override void Initialiser()
+    {
+        Message("EntitéState -> En Attaque 1");
+        controleur.EstEnAttaque = true;
+        controleur.Animateur.SetBool("EstEnAttaque", true);
+        attaqueChrono = Time.fixedTime;
+        controleurJoueur.ExécuterAttaque1();
+    }
 
     public override void Actualiser()
     {
-        if (EstAttaquePrête()) controleur.État = joueurControleur.ÉtatInactif;
+        if (EstCooldownGeneralTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
+    }
+}
+
+public class JoueurAttaque2State : AttaqueState
+{
+    private ControleurJoueur controleurJoueur;
+    public JoueurAttaque2State(ControleurEntité controleur) : base(controleur)
+        => controleurJoueur = (ControleurJoueur)controleur;
+    public override void Initialiser()
+    {
+        Message("EntitéState -> En Attaque 2");
+        controleur.EstEnAttaque = true;
+        controleur.Animateur.SetBool("EstEnAttaque", true);
+        attaqueChrono = Time.fixedTime;
+        controleurJoueur.ExécuterAttaque2();
     }
 
+    public override void Actualiser()
+    {
+        if (EstCooldownGeneralTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
+    }
 }
 
 
