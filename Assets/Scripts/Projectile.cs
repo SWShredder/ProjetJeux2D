@@ -29,11 +29,12 @@ public class Projectile : MonoBehaviour
     protected float cooldown = 0.35f;
     [SerializeField, Min(0.01f)]
     protected float délaiDégat = 0.01f;
-
-    private ProjectileComportement comportement;
+    [SerializeField]
+    protected bool forcerDirection = false;
 
     public bool EstTransperçant = false;
 
+    public ProjectileComportement Comportement { set; get; }
     public GameObject Parent { set; get; }
     public float Portée { get => portée; protected set => portée = value; }
     public float Cooldown { get => cooldown; protected set => cooldown = value; }
@@ -41,18 +42,23 @@ public class Projectile : MonoBehaviour
     public Vector2 Direction { set; get; }
     public float Vitesse { get => vitesse; }
 
-    public Projectile()
+    void Awake()
     {
-        comportement = new StandardProjectileComportement(this);
+        Comportement = new StandardProjectileComportement(this);
+        //Comportement = new OmniShotSurImpactProjectileDécorateur(this);
     }
 
-    void Start() => comportement.Initialiser();
-    void FixedUpdate() => comportement.Actualiser();
-    public void SurFinVie() => Destroy(this.gameObject);
+    void Start() => Comportement.Initialiser();
+    void FixedUpdate() => Comportement.Actualiser();
+    public void SurFinVie()
+    {
+        Comportement.Terminer();
+        Destroy(this.gameObject);
+    }
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (EstSourceEntitéValide(collider.gameObject)) comportement.SurImpactAvecEntité(collider);
-        else comportement.SurImpact(collider);
+        if (EstSourceEntitéValide(collider.gameObject)) Comportement.SurImpactAvecEntité(collider);
+        else Comportement.SurImpact(collider);
     }
 
     public float ObtenirDuréeVie() => vitesse > 0 ? portée / vitesse : duréeVie;

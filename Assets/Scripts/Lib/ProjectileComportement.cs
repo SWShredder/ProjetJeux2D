@@ -8,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ProjectileComportement : MonoBehaviour
+public abstract class ProjectileComportement : ScriptableObject
 {
     protected Projectile projectile;
     public ProjectileComportement(Projectile projectile) { this.projectile = projectile; }
@@ -29,12 +29,15 @@ public class StandardProjectileComportement : ProjectileComportement
         projectile.Direction = projectile.transform.rotation == Quaternion.Euler(0f, 0f, 0f) ? Vector2.right : Vector2.left;
     }
     public override void Actualiser() => projectile.CorpsPhysique.velocity = projectile.Direction * projectile.Vitesse;
-    public override void SurImpact(Collider2D collider) => Terminer();
+    public override void SurImpact(Collider2D collider) => projectile.SurFinVie();
     public override void SurImpactAvecEntité(Collider2D collider)
     {
         if (projectile.EstSourceValidePourDommage(collider.gameObject)) projectile.DéclencherDégats(collider.gameObject);
         if (projectile.EstTransperçant) return;
-        Terminer();
+        projectile.SurFinVie();
     }
-    public override void Terminer() => projectile.SurFinVie();
+    public override void Terminer()
+    {
+
+    }
 }
