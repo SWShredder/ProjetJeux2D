@@ -1,6 +1,7 @@
 ﻿/*      
  *      Auteur: Yanik Sweeney
  *      Date de création: 2019/03/06
+ *      Dernière modification: 2019/03/09
  *      
  *      Les AIStates permettent de contrôler le comportement d'un ControleurAI. Contrairement aux states
  *      du EntitéStates, les states de AIStates n'ont pas de méthodes Terminer(). Certaines states ont des
@@ -20,19 +21,27 @@ public abstract class AIState
 
     protected ControleurAI controleur;
     protected float chronoInterne;
+
+    /// <summary>
+    /// AIState doit avoir une référence à un controleurAI pour le manipuler.
+    /// </summary>
+    /// <param name="controleurAI"></param>
     public AIState(ControleurAI controleurAI)
     {
         controleur = controleurAI;
         if (controleur == null) MessageErreur(controleur, "Une tentative de création d'une AIState a été faite sans ControleurAI valide.");
     }
+
+    ///<summary>Méthode appelée une fois à chaque changement vers une nouvelle state.</summary>
     public abstract void Initialiser();
+    ///<summary>Méthode appelée à chaque FixedUpdate() sauf si le controleur est occupé ou en veille.</summary>
     public abstract void Actualiser();
+    ///<summary>Pour afiicher un message d'erreur. Est un wrapper sur Utilitaire.MessageErreur.</summary>
     public virtual void Message(string message)
     {
         if (debug) MessageErreur(controleur, message);
     }
 }
-
 /// <summary>
 /// La state associée au ennemis qui sont trop éloignés et qui ne sont pas mis à jour avant
 /// que la position du joueur soit dans les limites de la propriété RayonActivité. Un agent (AI)
@@ -58,7 +67,6 @@ public class EndormiAIState : AIState
         else controleur.StartCoroutine(controleur.MiseEnVeilleJusquàCondition(controleur.EstJoueurÀDistance));
     }
 }
-
 /// <summary>
 /// Cette state est associé aux ennemis qui sont maintenant à l'intérieur de leur rayon d'activité.
 /// À partir de cette state, il est possible de retourner vers *Endormi* ou d'aller vers *En Approche*
@@ -98,7 +106,6 @@ public class ÀDistanceAIState : AIState
         }
     }
 }
-
 /// <summary>
 /// Cette state est associée aux ennemis qui ne sont pas encore suffisament près du joueur pour directement se diriger
 /// vers sa position. Dans cette state les ennemis se déplacent en ligne droite dans la direction du joueur. Cette state
@@ -166,8 +173,10 @@ public class EnPositionnementAIState : AIState
     public void SePositionner() => controleur.CommanderMouvement(controleur.ObtenirDirectionPourPositionnement());
 }
 
-
-
+/// <summary>
+/// State associé à l'ennemi positionné et qui a pris la décision d'exécuter l'attaque. La state est une state
+/// de passage puisqu'elle transitionne vers ÀProximité aussitot l'attaque executée.
+/// </summary>
 public class EnAttaqueAIState : AIState
 {
     public EnAttaqueAIState(ControleurAI controleurAI) : base(controleurAI) { }
