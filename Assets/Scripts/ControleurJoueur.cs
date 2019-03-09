@@ -1,7 +1,7 @@
 ﻿/*
  *      Auteur: Yanik Sweeney
  *      Date de création: 2019/03/02
- *      Dernière modification: 2019/03/05
+ *      Dernière modification: 2019/03/09
  *    
  *      La majorité du comportement de ControleurJoueur se trouve dans ControleurEntité tout comme
  *      ControleurEnnemi. Le script existe pour permettre de facilement séparer l'implémentation
@@ -20,12 +20,19 @@ public class ControleurJoueur : ControleurEntité
     [SerializeField] private Transform positionAttaque1;
     [SerializeField] private Transform positionAttaque2;
 
+    ///<summary>Référence vers la state JoueurInactifState</summary>
     public EntitéState ÉtatInactif { private set; get; }
+    ///<summary>Référence vers la state JoueurMouvementState</summary>
     public EntitéState ÉtatMouvement { private set; get; }
+    ///<summary>Référence vers la state JoueurAttaque1State</summary>
     public EntitéState ÉtatAttaque1 { private set; get; }
+    ///<summary>Référence vers la state JoueurAttaque2State</summary>
     public EntitéState ÉtatAttaque2 { private set; get; }
-    public EntitéState ÉtatMort { private set; get; }
+    ///<summary>Référence vers la state JoueurMortState</summary>
+    public EntitéState ÉtatMort { private set; get; } 
+    ///<summary>Le GameObject qui représente le projectile de l'attaque 1</summary>
     public GameObject Attaque1 { private set; get; }
+    ///<summary>Le GameObject qui représente le projectile de l'attaque 2</summary>
     public GameObject Attaque2 { private set; get; }
 
     public ControleurJoueur()
@@ -37,7 +44,9 @@ public class ControleurJoueur : ControleurEntité
         ÉtatMort = new JoueurMortState(this);
     }
 
-
+    ///<summary>
+    ///[Ne pas utiliser]Permet de commander l'attaque 1 du Joueur. Utiliser plutot ExécuterAttaque1()
+    ///</summary>
     public override void Attaquer()
     {
         var instance = Instantiate(
@@ -47,7 +56,10 @@ public class ControleurJoueur : ControleurEntité
         StartCoroutine(VérrouillerAttaque(instance.GetComponent<Projectile>().Cooldown));
         instance.GetComponent<Projectile>().Parent = this.gameObject;
     }
-
+    /// <summary>
+    /// Permet de commander l'attaque 1 du Joueur. L'attaque est executée immédiatement et la méthode
+    /// verrouillerAttaque est appelée pour empecher le controleur d'attaquer si l'attaque est en cooldown;
+    /// </summary>
     public void ExécuterAttaque1()
     {
         var instance = Instantiate(
@@ -57,7 +69,10 @@ public class ControleurJoueur : ControleurEntité
         StartCoroutine(VérrouillerAttaque(instance.GetComponent<Projectile>().Cooldown));
         instance.GetComponent<Projectile>().Parent = this.gameObject;
     }
-
+    /// <summary>
+    /// Permet de commander l'attaque 2 du Joueur. L'attaque est executée immédiatement et la méthode
+    /// verrouillerAttaque est appelée pour empecher le controleur d'attaquer si l'attaque est en cooldown;
+    /// </summary>
     public void ExécuterAttaque2()
     {
         var instance = Instantiate(
@@ -67,7 +82,9 @@ public class ControleurJoueur : ControleurEntité
         StartCoroutine(VérrouillerAttaque(instance.GetComponent<Projectile>().Cooldown));
         instance.GetComponent<Projectile>().Parent = this.gameObject;
     }
-
+    /// <summary>
+    /// Permet de commander la mort du Joueur.
+    /// </summary>
     public override void Mourir()
     {
         base.Mourir();
