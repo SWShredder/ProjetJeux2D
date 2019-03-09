@@ -31,7 +31,7 @@ using UnityEngine;
 
 public abstract class EntitéState
 {
-    private static readonly bool debug = true;
+    private static readonly bool debug = false;
     protected ControleurEntité controleur;
     public EntitéState(ControleurEntité controleur)
     {

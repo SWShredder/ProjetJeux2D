@@ -41,8 +41,8 @@ public class ControleurEnnemi : ControleurEntité
             projectile,
             positionProjectiles.position,
             EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
-        StartCoroutine(VérrouillerAttaque(instance.GetComponent<ProjectileComportement>().Cooldown));
-        instance.GetComponent<ProjectileComportement>().Parent = this.gameObject;
+        StartCoroutine(VérrouillerAttaque(instance.GetComponent<Projectile>().Cooldown));
+        instance.GetComponent<Projectile>().Parent = this.gameObject;
     }
 
     public void SurDemandeMouvement(Vector2 direction)

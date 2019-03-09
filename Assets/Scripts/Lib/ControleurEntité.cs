@@ -27,12 +27,10 @@ public abstract class ControleurEntité : MonoBehaviour
     protected float vitesseMouvement = 1f;
     [SerializeField]
     protected bool paramètresAvancés = true;
-    [SerializeField, Range(0f, 2f), Tooltip("Vitesse de mouvement sur l'axe vertical"), ConditionalField("paramètresAvancés")]
+    [SerializeField, Min(0f), Tooltip("Vitesse de mouvement sur l'axe vertical"), ConditionalField("paramètresAvancés")]
     protected float coefficientAxeVertical = 0.6f;
-
     [SerializeField, Min(0.01f), Tooltip("Délai d'inactivité après les attaques"), ConditionalField("paramètresAvancés")]
     protected float cooldownAttaques = 0.2f;
-
     [SerializeField, Min(0.1f), Tooltip("Délai minimum dans lequel l'entité doit rester dans la state Attaque"), ConditionalField("paramètresAvancés")]
     protected float cooldownAttaqueState = 0.15f;
 

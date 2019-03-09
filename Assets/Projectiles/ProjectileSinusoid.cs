@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileSinusoid : ProjectileComportement
+public class ProjectileSinusoid : Projectile
 {
     [SerializeField]
     private float frequenceSinusoid = 2.0f;
@@ -13,14 +13,14 @@ public class ProjectileSinusoid : ProjectileComportement
     void Start()
     {
         Destroy(gameObject, duréeVie);
-        corpsPhysique = GetComponent<Rigidbody2D>();
-        direction = transform.rotation == Quaternion.Euler(0f, 0f, 0f) ? Vector2.right : Vector2.left;
+        CorpsPhysique = GetComponent<Rigidbody2D>();
+        Direction = transform.rotation == Quaternion.Euler(0f, 0f, 0f) ? Vector2.right : Vector2.left;
     }
 
     void FixedUpdate()
     {
         Debug.Log("pink shoot");      
-        corpsPhysique.velocity = direction * vitesse;
+        CorpsPhysique.velocity = Direction * vitesse;
         this.transform.position = this.transform.position + transform.up * Mathf.Sin(Time.time * frequenceSinusoid) * intensitéSinusoid;
     }
 }
