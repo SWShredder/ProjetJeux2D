@@ -43,6 +43,7 @@ public class ControleurEnnemi : ControleurEntité
             EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
         StartCoroutine(VérrouillerAttaque(instance.GetComponent<Projectile>().Cooldown));
         instance.GetComponent<Projectile>().Parent = this.gameObject;
+
     }
 
     public void SurDemandeMouvement(Vector2 direction)

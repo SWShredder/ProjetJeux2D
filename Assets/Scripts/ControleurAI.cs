@@ -26,6 +26,7 @@ public class ControleurAI : MonoBehaviour
 
     private ControleurEntité controleurEntité;
 
+     
     public float RayonActivité { get => rayonActivité; }
     public bool EstEnVeille { set; get; }
     public bool EstOccupé { set; get; }
@@ -35,7 +36,9 @@ public class ControleurAI : MonoBehaviour
     public AIState EnAttaqueAIState { private set; get; }
     public AIState ÀProximitéAIState { private set; get; }
     public AIState EnPositionnementAIState { private set; get; }
+
     public AIState AttaqueAveugleAIState { private set; get; }
+    ///<summary>Retourne un Vector2 qui représente la position du joueur</summary>
     public Vector2 PositionJoueur { get => ObtenirJoueur().transform.position; }
 
     private AIState état;

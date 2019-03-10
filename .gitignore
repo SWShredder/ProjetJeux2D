@@ -34,3 +34,8 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+/Assets/Entit+®s/Zombie.prefab.meta
+/Assets/Entit+®s/Zombie.prefab
+/Assets/Entit+®s/Robot.prefab.meta
+/Assets/Entit+®s/Robot.prefab
+/Assets/Entit+®s.meta
