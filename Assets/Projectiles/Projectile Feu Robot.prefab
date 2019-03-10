@@ -152,12 +152,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   estProjectile: 1
-  vitesse: 12
+  vitesse: 4
   "dur\xE9eVie": 1
   "d\xE9gats": 2
-  "port\xE9e": 6
-  cooldown: 0.05
+  "port\xE9e": 12
+  cooldown: 0.1
   "d\xE9laiD\xE9gat": 0.01
   collisionAvecAutresProjectiles: 1
-  effet: 0
-  "estTransper\xE7ant": 0
+  effet: 2
+  "estTransper\xE7ant": 1

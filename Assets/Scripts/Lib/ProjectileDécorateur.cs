@@ -48,9 +48,9 @@ public class OmniShotSurFinVieProjectileDécorateur : ProjectileDécorateur
 
 }
 
-public class OmniShotSurImpactProjectileDécorateur : ProjectileDécorateur
+public class OmniShotImpactEntitéProjectileDécorateur : ProjectileDécorateur
 {
-    public OmniShotSurImpactProjectileDécorateur(Projectile projectile) : base(projectile) => comportement = projectile.Comportement;
+    public OmniShotImpactEntitéProjectileDécorateur(Projectile projectile) : base(projectile) => comportement = projectile.Comportement;
     public override void SurImpactAvecEntité(Collider2D collider)
     {
         Object omnishot = UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Projectiles/OmniShot.prefab", typeof(GameObject));
@@ -61,9 +61,25 @@ public class OmniShotSurImpactProjectileDécorateur : ProjectileDécorateur
             p.Parent = projectile.Parent;
         }
         Destroy(instance, projectiles[0].ObtenirDuréeVie());
-        base.Terminer();
+        base.SurImpactAvecEntité(collider);
     }
+}
 
+public class OmniShotSurImpactProjectileDécorateur : ProjectileDécorateur
+{
+    public OmniShotSurImpactProjectileDécorateur(Projectile projectile) : base(projectile) => comportement = projectile.Comportement;
+    public override void SurImpact(Collider2D collider)
+    {
+        Object omnishot = UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Projectiles/OmniShot.prefab", typeof(GameObject));
+        var instance = Instantiate(omnishot, projectile.transform.position, projectile.transform.rotation) as GameObject;
+        var projectiles = instance.GetComponentsInChildren<Projectile>();
+        foreach (Projectile p in projectiles)
+        {
+            p.Parent = projectile.Parent;
+        }
+        Destroy(instance, projectiles[0].ObtenirDuréeVie());
+        base.SurImpact(collider);
+    }
 }
 
 
