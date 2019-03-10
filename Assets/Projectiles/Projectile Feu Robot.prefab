@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3115500492843494752}
   - component: {fileID: 3562655810313608907}
   m_Layer: 0
-  m_Name: Projectile Rouge
+  m_Name: Projectile Feu Robot
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,5 +158,6 @@ MonoBehaviour:
   "port\xE9e": 6
   cooldown: 0.05
   "d\xE9laiD\xE9gat": 0.01
-  forcerDirection: 0
-  "EstTransper\xE7ant": 1
+  collisionAvecAutresProjectiles: 0
+  effet: 0
+  "estTransper\xE7ant": 1

@@ -30,9 +30,9 @@ public class BoomerangProjectileDécorateur : ProjectileDécorateur
     }
 }
 
-public class OmniShotSurImpactProjectileDécorateur : ProjectileDécorateur
+public class OmniShotSurFinVieProjectileDécorateur : ProjectileDécorateur
 {
-    public OmniShotSurImpactProjectileDécorateur(Projectile projectile) : base(projectile) => comportement = projectile.Comportement;
+    public OmniShotSurFinVieProjectileDécorateur(Projectile projectile) : base(projectile) => comportement = projectile.Comportement;
     public override void Terminer()
     {
         Object omnishot = UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Projectiles/OmniShot.prefab", typeof(GameObject));
