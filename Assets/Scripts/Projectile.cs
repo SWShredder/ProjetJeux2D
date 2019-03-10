@@ -15,6 +15,13 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
+
+    public enum Effet
+    {
+        OmniShotSurFinVie,
+        Aucun,
+    }
+
     [SerializeField]
     protected bool estProjectile = true;
     [SerializeField, ConditionalField("estProjectile", true)]
@@ -23,16 +30,19 @@ public class Projectile : MonoBehaviour
     protected float duréeVie = 0.5f;
     [SerializeField]
     protected int dégats = 1;
-    [SerializeField, Min(0.1f)]
+    [SerializeField, Min(0.1f), ConditionalField("estProjectile", true)]
     protected float portée = 6f;
     [SerializeField, Min(0.01f)]
     protected float cooldown = 0.35f;
     [SerializeField, Min(0.01f)]
     protected float délaiDégat = 0.01f;
     [SerializeField]
-    protected bool forcerDirection = false;
+    protected bool collisionAvecAutresProjectiles = false;
+    [SerializeField]
+    protected Effet effet;
+    [SerializeField]
+    private bool estTransperçant = false;
 
-    public bool EstTransperçant = false;
 
     public ProjectileComportement Comportement { set; get; }
     public GameObject Parent { set; get; }
@@ -41,11 +51,12 @@ public class Projectile : MonoBehaviour
     public Rigidbody2D CorpsPhysique { set; get; }
     public Vector2 Direction { set; get; }
     public float Vitesse { get => vitesse; }
+    public bool EstTransperçant { get => estTransperçant; set => estTransperçant = value; }
 
     void Awake()
     {
         Comportement = new StandardProjectileComportement(this);
-        //Comportement = new OmniShotSurImpactProjectileDécorateur(this);
+        Comportement = DécorerComportement();
     }
 
     void Start() => Comportement.Initialiser();
@@ -57,8 +68,20 @@ public class Projectile : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (EstSourceEntitéValide(collider.gameObject)) Comportement.SurImpactAvecEntité(collider);
+        if (EstSourceProjectile(collider.gameObject) && !collisionAvecAutresProjectiles) return;
+        else if (EstSourceEntitéValide(collider.gameObject)) Comportement.SurImpactAvecEntité(collider);
         else Comportement.SurImpact(collider);
+    }
+
+    public ProjectileComportement DécorerComportement()
+    {
+        switch (effet)
+        {
+            case Effet.OmniShotSurFinVie:
+                return new OmniShotSurFinVieProjectileDécorateur(this);
+            default:
+                return Comportement;
+        }
     }
 
     public float ObtenirDuréeVie() => vitesse > 0 ? portée / vitesse : duréeVie;

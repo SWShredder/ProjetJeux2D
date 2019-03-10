@@ -6,6 +6,7 @@
  */
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public abstract class ProjectileComportement : ScriptableObject
@@ -28,7 +29,7 @@ public class StandardProjectileComportement : ProjectileComportement
         projectile.CorpsPhysique = projectile.GetComponent<Rigidbody2D>();
         projectile.Direction = projectile.transform.rotation == Quaternion.Euler(0f, 0f, 0f) ? Vector2.right : Vector2.left;
     }
-    public override void Actualiser() => projectile.CorpsPhysique.velocity = projectile.Direction * projectile.Vitesse;
+    public override void Actualiser() => projectile.CorpsPhysique.velocity = projectile.transform.right * projectile.Vitesse;
     public override void SurImpact(Collider2D collider) => projectile.SurFinVie();
     public override void SurImpactAvecEntité(Collider2D collider)
     {
