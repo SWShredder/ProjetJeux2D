@@ -18,7 +18,9 @@ public class Projectile : MonoBehaviour
 
     public enum Effet
     {
-        OmniShotSurFinVie,
+        OmnishotFinVie,
+        OmnishotImpactEntité,
+        OmnishotSurImpact,
         Aucun,
     }
 
@@ -39,7 +41,7 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     protected bool collisionAvecAutresProjectiles = false;
     [SerializeField]
-    protected Effet effet;
+    protected Effet effet = Effet.Aucun;
     [SerializeField]
     private bool estTransperçant = false;
 
@@ -77,8 +79,12 @@ public class Projectile : MonoBehaviour
     {
         switch (effet)
         {
-            case Effet.OmniShotSurFinVie:
+            case Effet.OmnishotFinVie:
                 return new OmniShotSurFinVieProjectileDécorateur(this);
+            case Effet.OmnishotImpactEntité:
+                return new OmniShotImpactEntitéProjectileDécorateur(this);
+            case Effet.OmnishotSurImpact:
+                return new OmniShotSurImpactProjectileDécorateur(this);
             default:
                 return Comportement;
         }

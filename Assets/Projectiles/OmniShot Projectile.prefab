@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3115500492843494752}
   - component: {fileID: 3562655810313608907}
   m_Layer: 0
-  m_Name: Projectile Feu Petit
+  m_Name: OmniShot Projectile
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,12 +152,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   estProjectile: 1
-  vitesse: 12
+  vitesse: 1.5
   "dur\xE9eVie": 1
   "d\xE9gats": 2
-  "port\xE9e": 6
+  "port\xE9e": 3
   cooldown: 0.05
   "d\xE9laiD\xE9gat": 0.01
-  collisionAvecAutresProjectiles: 1
-  effet: 1
+  collisionAvecAutresProjectiles: 0
+  effet: 3
   "estTransper\xE7ant": 1

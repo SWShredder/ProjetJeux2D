@@ -102,9 +102,9 @@ MonoBehaviour:
   "port\xE9e": 6
   cooldown: 0.8
   "d\xE9laiD\xE9gat": 0.5
-  forcerDirection: 0
-  effet: 1
-  "EstTransper\xE7ant": 1
+  collisionAvecAutresProjectiles: 0
+  effet: 3
+  "estTransper\xE7ant": 0
 --- !u!95 &9120815710720575937
 Animator:
   serializedVersion: 3
