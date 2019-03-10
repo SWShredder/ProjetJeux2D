@@ -19,6 +19,7 @@ public class Projectile : MonoBehaviour
     public enum Effet
     {
         OmniShotSurFinVie,
+        OmniShotSurFinImpact,
         Aucun,
     }
 
@@ -79,6 +80,8 @@ public class Projectile : MonoBehaviour
         {
             case Effet.OmniShotSurFinVie:
                 return new OmniShotSurFinVieProjectileDécorateur(this);
+            case Effet.OmniShotSurFinImpact:
+                return new OmniShotSurImpactProjectileDécorateur(this);
             default:
                 return Comportement;
         }
