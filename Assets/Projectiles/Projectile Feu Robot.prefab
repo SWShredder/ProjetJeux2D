@@ -158,6 +158,6 @@ MonoBehaviour:
   "port\xE9e": 6
   cooldown: 0.05
   "d\xE9laiD\xE9gat": 0.01
-  collisionAvecAutresProjectiles: 0
+  collisionAvecAutresProjectiles: 1
   effet: 0
-  "estTransper\xE7ant": 1
+  "estTransper\xE7ant": 0

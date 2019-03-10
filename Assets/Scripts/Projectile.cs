@@ -70,7 +70,7 @@ public class Projectile : MonoBehaviour
     {
         if (EstSourceProjectile(collider.gameObject) && !collisionAvecAutresProjectiles) return;
         else if (EstSourceEntitéValide(collider.gameObject)) Comportement.SurImpactAvecEntité(collider);
-        else if (!EstTransperçant) Comportement.SurImpact(collider);
+        else Comportement.SurImpact(collider);
     }
 
     public ProjectileComportement DécorerComportement()
