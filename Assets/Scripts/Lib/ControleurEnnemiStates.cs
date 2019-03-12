@@ -13,6 +13,8 @@
  *      compléter ce script-ci
  *      
  */
+
+using UnityEngine;
 public class EnnemiInactifState : InactifState
 {
     private ControleurEnnemi controleurEnnemi;
@@ -57,6 +59,12 @@ public class EnnemiMortState : MortState
     private ControleurEnnemi controleurEnnemi;
     public EnnemiMortState(ControleurEntité controleur) : base(controleur)
         => controleurEnnemi = (ControleurEnnemi)controleur;
+    public override void Initialiser()
+    {
+        base.Initialiser();
+        controleur.GetComponent<EffetsVisuels>().Fondue(controleur.gameObject, 2f);
+        GameObject.Destroy(controleur.gameObject, controleur.Animateur.ObtenirDurée() + 0.5f);
+    }
 
     public override void Actualiser()
     {

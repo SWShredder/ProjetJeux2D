@@ -10,16 +10,19 @@
  */
 using UnityEngine;
 using MyBox;
-using System.Collections;
 using static Utilitaire;
+using System.Collections.Generic;
 
 public class ControleurJoueur : ControleurEntité
 {
     [SerializeField] private GameObject attaque1;
-    [SerializeField] private GameObject attaque2;
+    [SerializeField, HideInInspector] private GameObject attaque2;
     [SerializeField] private Transform positionAttaque1;
-    [SerializeField] private Transform positionAttaque2;
+    [SerializeField, HideInInspector] private Transform positionAttaque2;
 
+    public List<Projectile.Effet> DécorationsAttaque1;
+    [HideInInspector]
+    public List<Projectile.Effet> DécorationsAttaque2;
     ///<summary>Référence vers la state JoueurInactifState</summary>
     public EntitéState ÉtatInactif { private set; get; }
     ///<summary>Référence vers la state JoueurMouvementState</summary>
@@ -34,6 +37,7 @@ public class ControleurJoueur : ControleurEntité
     public GameObject Attaque1 { private set; get; }
     ///<summary>Le GameObject qui représente le projectile de l'attaque 2</summary>
     public GameObject Attaque2 { private set; get; }
+    public bool EstSurPickup { set; get; }
 
     public ControleurJoueur()
     {
@@ -62,10 +66,12 @@ public class ControleurJoueur : ControleurEntité
     /// </summary>
     public void ExécuterAttaque1()
     {
+        
         var instance = Instantiate(
             attaque1,
             positionAttaque1.position,
             EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
+        instance.GetComponent<Projectile>().DécorerComportement(DécorationsAttaque1);
         StartCoroutine(VérrouillerAttaque(instance.GetComponent<Projectile>().Cooldown));
         instance.GetComponent<Projectile>().Parent = this.gameObject;
     }
@@ -75,9 +81,7 @@ public class ControleurJoueur : ControleurEntité
     /// </summary>
     public void ExécuterAttaque2()
     {
-        var instance = Instantiate(
-            attaque2,
-            positionAttaque2.position,
+        GameObject instance = ProjectilesPool.Instance.ObtenirProjectile(positionAttaque2.position,
             EstFaceDroite ? Quaternion.Euler(0f, 0f, 0f) : Quaternion.Euler(0f, 180f, 0f));
         StartCoroutine(VérrouillerAttaque(instance.GetComponent<Projectile>().Cooldown));
         instance.GetComponent<Projectile>().Parent = this.gameObject;
@@ -89,6 +93,7 @@ public class ControleurJoueur : ControleurEntité
     {
         base.Mourir();
         État = ÉtatMort;
+        GestionnaireJeu.Instance.AppelerMenuDéfaite();
     }
 
     void Start()

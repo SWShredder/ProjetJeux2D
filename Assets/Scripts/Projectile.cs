@@ -9,7 +9,7 @@
  * 
  */
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using MyBox;
 using UnityEngine;
 
@@ -41,7 +41,7 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     protected bool collisionAvecAutresProjectiles = false;
     [SerializeField]
-    protected Effet effet = Effet.Aucun;
+    protected List<Effet> effets;
     [SerializeField]
     private bool estTransperçant = false;
 
@@ -58,7 +58,7 @@ public class Projectile : MonoBehaviour
     void Awake()
     {
         Comportement = new StandardProjectileComportement(this);
-        Comportement = DécorerComportement();
+        DécorerComportement(effets);
     }
 
     void Start() => Comportement.Initialiser();
@@ -66,27 +66,34 @@ public class Projectile : MonoBehaviour
     public void SurFinVie()
     {
         Comportement.Terminer();
-        Destroy(this.gameObject);
+        ProjectilesPool.Instance.RetournerProjectile(this.gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (EstSourceProjectile(collider.gameObject) && !collisionAvecAutresProjectiles) return;
         else if (EstSourceEntitéValide(collider.gameObject)) Comportement.SurImpactAvecEntité(collider);
+        else if (EstSourceMorte(collider.gameObject)) return;
         else Comportement.SurImpact(collider);
     }
 
-    public ProjectileComportement DécorerComportement()
+    public void DécorerComportement(List<Effet> effets)
     {
-        switch (effet)
+        foreach (Effet effet in effets)
         {
-            case Effet.OmnishotFinVie:
-                return new OmniShotSurFinVieProjectileDécorateur(this);
-            case Effet.OmnishotImpactEntité:
-                return new OmniShotImpactEntitéProjectileDécorateur(this);
-            case Effet.OmnishotSurImpact:
-                return new OmniShotSurImpactProjectileDécorateur(this);
-            default:
-                return Comportement;
+            switch (effet)
+            {
+                case Effet.OmnishotFinVie:
+                    Comportement = new OmniShotSurFinVieProjectileDécorateur(this);
+                    break;
+                case Effet.OmnishotImpactEntité:
+                    Comportement = new OmniShotImpactEntitéProjectileDécorateur(this);
+                    break;
+                case Effet.OmnishotSurImpact:
+                    Comportement = new OmniShotSurImpactProjectileDécorateur(this);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -95,6 +102,8 @@ public class Projectile : MonoBehaviour
         Coroutines.Instance.ActionDiférée(() => source.GetComponent<ControleurRpg>().AppliquerDégats(dégats), délaiDégat));
     public bool EstSourceValidePourDommage(GameObject source) => EstSourceEntitéValide(source) && EstSourceComposanteRpgValide(source)
         && !EstSourceTagIdentique(source);
+    public bool EstSourceMorte(GameObject source) => source.GetComponent<ControleurEntité>() != null &&
+        source.GetComponent<ControleurEntité>().EstMort;
 
 
     private bool EstSourceProjectile(GameObject source) => source.CompareTag("Projectile");
@@ -102,5 +111,6 @@ public class Projectile : MonoBehaviour
     private bool EstSourceEntitéValide(GameObject source) => !EstSourceProjectile(source)
         && source.GetComponent<ControleurEntité>() != null && !source.GetComponent<ControleurEntité>().EstMort;
     private bool EstSourceComposanteRpgValide(GameObject source) => source.GetComponent<ControleurRpg>() != null;
+
 
 }

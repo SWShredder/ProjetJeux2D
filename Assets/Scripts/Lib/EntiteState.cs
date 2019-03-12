@@ -43,7 +43,7 @@ public abstract class EntitéState
 
     protected void Message(string message)
     {
-        Utilitaire.MessageErreur(controleur, message);
+        if(debug) Utilitaire.MessageErreur(controleur, message);
     }
 }
 
@@ -109,9 +109,7 @@ public abstract class MortState : EntitéState
     public override void Initialiser()
     {
         Message("EntitéState -> Mort");
-        controleur.GetComponent<EffetsVisuels>().Fondue(controleur.gameObject, 2f);
         controleur.Animateur.SetTrigger("Mort");
-        GameObject.Destroy(controleur.gameObject, controleur.Animateur.ObtenirDurée() + 0.5f);
     }
 
 }

@@ -36,13 +36,13 @@ public class OmniShotSurFinVieProjectileDécorateur : ProjectileDécorateur
     public override void Terminer()
     {
         Object omnishot = UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Projectiles/OmniShot.prefab", typeof(GameObject));
-        var instance = Instantiate(omnishot, projectile.transform.position, projectile.transform.rotation) as GameObject;
+        var instance = GameObject.Instantiate(omnishot, projectile.transform.position, projectile.transform.rotation) as GameObject;
         var projectiles = instance.GetComponentsInChildren<Projectile>();
         foreach (Projectile p in projectiles)
         {
             p.Parent = projectile.Parent;
         }
-        Destroy(instance, projectiles[0].ObtenirDuréeVie());
+        GameObject.Destroy(instance, projectiles[0].ObtenirDuréeVie());
         base.Terminer();
     }
 
@@ -54,13 +54,13 @@ public class OmniShotImpactEntitéProjectileDécorateur : ProjectileDécorateur
     public override void SurImpactAvecEntité(Collider2D collider)
     {
         Object omnishot = UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Projectiles/OmniShot.prefab", typeof(GameObject));
-        var instance = Instantiate(omnishot, projectile.transform.position, projectile.transform.rotation) as GameObject;
+        var instance = GameObject.Instantiate(omnishot, projectile.transform.position, projectile.transform.rotation) as GameObject;
         var projectiles = instance.GetComponentsInChildren<Projectile>();
         foreach (Projectile p in projectiles)
         {
             p.Parent = projectile.Parent;
         }
-        Destroy(instance, projectiles[0].ObtenirDuréeVie());
+        GameObject.Destroy(instance, projectiles[0].ObtenirDuréeVie());
         base.SurImpactAvecEntité(collider);
     }
 }
@@ -71,13 +71,13 @@ public class OmniShotSurImpactProjectileDécorateur : ProjectileDécorateur
     public override void SurImpact(Collider2D collider)
     {
         Object omnishot = UnityEditor.AssetDatabase.LoadAssetAtPath("Assets/Projectiles/OmniShot.prefab", typeof(GameObject));
-        var instance = Instantiate(omnishot, projectile.transform.position, projectile.transform.rotation) as GameObject;
+        var instance = GameObject.Instantiate(omnishot, projectile.transform.position, projectile.transform.rotation) as GameObject;
         var projectiles = instance.GetComponentsInChildren<Projectile>();
         foreach (Projectile p in projectiles)
         {
             p.Parent = projectile.Parent;
         }
-        Destroy(instance, projectiles[0].ObtenirDuréeVie());
+        GameObject.Destroy(instance, projectiles[0].ObtenirDuréeVie());
         base.SurImpact(collider);
     }
 }

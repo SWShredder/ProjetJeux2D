@@ -40,7 +40,9 @@ public class JoueurInactifState : InactifState
     public override void Actualiser()
     {
         if (controleur.EstEnCooldownAttaque) return;
-        if (Input.GetButton("Fire1") && controleurJoueur.EstAttaquePrête) controleur.État = controleurJoueur.ÉtatAttaque1;
+        if ((Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire1")) && controleurJoueur.EstSurPickup) return;
+        if (Input.GetButtonDown("Fire1") && controleurJoueur.EstAttaquePrête) controleur.État = controleurJoueur.ÉtatAttaque1;
+        else if (Input.GetButtonDown("Fire2") && controleurJoueur.EstAttaquePrête) controleur.État = controleurJoueur.ÉtatAttaque2;
         else
         {
             Vector2 velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -59,10 +61,9 @@ public class JoueurMouvementState : MouvementState
 
     public override void Actualiser()
     {
-        if (Input.GetButton("Fire1") && controleurJoueur.EstAttaquePrête)
-        {
-            controleur.État = controleurJoueur.ÉtatAttaque1;
-        }
+        if (controleurJoueur.EstSurPickup && (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire1"))) return;
+        if (Input.GetButtonDown("Fire1") && controleurJoueur.EstAttaquePrête) controleur.État = controleurJoueur.ÉtatAttaque1;
+        else if (Input.GetButtonDown("Fire2") && controleurJoueur.EstAttaquePrête) controleur.État = controleurJoueur.ÉtatAttaque2;
         else
         {
             Vector2 velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
@@ -113,7 +114,9 @@ public class JoueurAttaque2State : AttaqueState
 
     public override void Actualiser()
     {
-        if (EstCooldownStateTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
+        if (controleurJoueur.EstAttaquePrête && Input.GetButton("Fire2")) controleurJoueur.ExécuterAttaque2();
+        else if (Input.GetButton("Fire2")) return;
+        else if (EstCooldownStateTerminé()) controleur.État = controleurJoueur.ÉtatInactif;
     }
 }
 
@@ -126,15 +129,15 @@ public class JoueurMortState : MortState
     public override void Initialiser()
     {
         base.Initialiser();
-        // Code à faire ici.
+        controleur.GetComponent<EffetsVisuels>().Fondue(controleur.gameObject, 2f);
     }
     public override void Actualiser()
     {
-        Debug.Log("La state JoueurMortState n'est pas encore implémentée.");
+
     }
 
     public override void Terminer()
     {
-        throw new System.NotImplementedException();
+
     }
 }

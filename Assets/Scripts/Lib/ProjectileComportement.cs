@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public abstract class ProjectileComportement : ScriptableObject
+public abstract class ProjectileComportement
 {
     protected Projectile projectile;
     public ProjectileComportement(Projectile projectile) { this.projectile = projectile; }
